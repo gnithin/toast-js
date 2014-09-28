@@ -2,39 +2,107 @@
 	<html lang="en">
 		<head>
 			<title>
-				Toast Example
+				Toast-js
 			</title>
 			<meta name="viewport" content="width=device-width, initial-scale=1">
-			<link href="public/styles/lib/bootstrap.min.css" rel="stylesheet"/>
+			<!--<link href="public/styles/lib/bootstrap.min.css" rel="stylesheet"/>-->
+			<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet">
 			<link href="public/styles/main_style.css" rel="stylesheet"/>
 		</head>
 		<body>
 			<div id="all-content-wrapper">
+				<div class="jumbotron">
+					<h1><span id="toast-style"><a href="https://github.com/gnithin/toast-js" target="_blank">Toast-js</a></span><br/><small>Android-like Toasts in JS</small></h1>
+					<p>
+						<a href="http://developer.android.com/guide/topics/ui/notifiers/toasts.html" target="_blank">Android Toasts</a> are small pop-ups that have many use-cases in android - error messages, status messages et al.<br/>
+						So here's some toast in jQuery flavored Javascript!
+					</p>
+				</div>
 				<div class="container" id="all-content">
+					<div class="row">
+						<h1 class="page-header">Getting toast-js</h1>
+					</div>
+					<div>
+						<div class="row">
+							Clone the <a href="">toast-js repo</a> and use the src/toast.min.js file to your JavaScript folder and add it like so - 
+							<pre style="background:#fff;color:#000"><span style="color:#3a4a64">&lt;<span style="color:#3a4a64">script</span> <span style="color:#3a4a64">src</span>=<span style="color:#409b1c">"/path/to/js/toast.min.js"</span>>&lt;/<span style="color:#3a4a64">script</span>></span></pre>
+							To check if it's working, try displaying a toast message, immediately after adding the script.
+<pre style="background:#fff;color:#000">&lt;<span style="color:#3b5bb5">script</span>>
+    toast(<span style="color:#409b1c">"Hello, World!"</span>);
+&lt;/<span style="color:#3b5bb5">script</span>>
+</pre>
+							Toast-js works on top of <a href="https://code.jquery.com/">jQuery</a> and <a href="https://code.jquery.com/ui/">jQuery UI</a>. Make sure you've included them before you use it.
+						</div>
+
+					</div>
+					<div>
+						<div class="row">
+							<h1 class="page-header">How to use it?</h1>
+						</div>
+					</div>
 					<div>
 						<div class="row">
 							<h2>Default Toast</h2>
-							<!-- Put Code block here -->
+							<p>This is a default Toast. This simply calls the <code>toast()</code> function and passes a string to be displayed.</p>
+							<div class="code-block">
+								<pre style="background:#fff;color:#000">toast(<span style="color:#409b1c">"This is the default Toast."</span>);</pre>
+							</div>
 							<button id="default-toast" class="btn btn-primary">Test it!</button>
 						</div>
 						<div class="row">
 							<h2>Timed Toast(for 5000ms)</h2>
-							<!-- Put Code block here -->
+							<p>This is the same default Toast, but with an added delay of 5000ms. An optional dictionary can be passed to the <code>toast()</code> which has a key-value pair -  <code>"delay": 5000</code>. The <code>delay</code> attribute defaults to 3000 and is always in milliseconds.</p>
+							<div class="code-block">
+								<pre style="background:#fff;color:#000">toast(<span style="color:#409b1c">"This is a timed Toast with 4000ms delay"</span>,{<span style="color:#409b1c">"delay"</span>: <span style="color:#3b5bb5">5000</span>});</pre>
+							</div>
 							<button id="timed-toast" class="btn btn-primary">Test it!</button>
 						</div>
 						<div class="row">
 							<h2>Toast on Top</h2>
-							<!-- Put Code block here -->
+							<p>
+								The Toast is displayed on the top of the screen, rather than the bottom. A <code>toast-pos</code> key needs to be passed in the optional args of the toast, with the value as <code>top</code>. The other possible value that the attribute <code>toast-pos</code> can take is <code>bottom</code>, which is the default value.
+							</p>
+							<div class="code-block">
+								<pre style="background:#fff;color:#000">toast(<span style="color:#409b1c">"This is a toast on the top of the window."</span>,{<span style="color:#409b1c">"toast-pos"</span> : <span style="color:#409b1c">"top"</span>});</pre>
+							</div>
 							<button id="toast-top" class="btn btn-primary">Test it!</button>
 						</div>
 						<div class="row">
 							<h2>Styled Toast</h2>
-							<!-- Put Code block here -->
+							<p>
+							You can style the toast as well, passing in your customized CSS values into the optional arguments, alongwith the <code>delay</code> and <code>toast-pos</code> attributes.
+							</p>
+							<div class="code-block">
+<pre style="background:#fff;color:#000">opt_args <span style="color:#ff7800">=</span> {
+    <span style="color:#409b1c">"background-color"</span>  :   <span style="color:#409b1c">"#00F"</span>,
+    <span style="color:#409b1c">"border"</span>            :   <span style="color:#409b1c">"5px dashed #F00"</span>,
+    <span style="color:#409b1c">"color"</span>             :   <span style="color:#409b1c">"#0F0"</span>,
+    <span style="color:#409b1c">"font-family"</span>       :   <span style="color:#409b1c">"monospace"</span>,
+    <span style="color:#409b1c">"font-size"</span>         :   <span style="color:#409b1c">"30px"</span>
+};
+toast(<span style="color:#409b1c">"This is a styled Toast."</span>, opt_args);
+</pre>
+                            </div>
 							<button id="styled-toast" class="btn btn-primary">Test it!</button>
 						</div>
 						<div class="row">
 							<h2>Set Default Toast</h2>
-							<!-- Put Code block here -->
+							<p>
+							<code>set_default()</code> is a function that is used to set the default style of the toast. Once this is set, all the <code>toast()</code> calls will use the parameters passed to <code>set_default()</code> as a base. So, once you test this, the default Toast will seem to be different, and a refresh is required to go back to the earlier state.
+							</p>
+							<div class="code-block">
+<pre style="background:#fff;color:#000">default_vals <span style="color:#ff7800">=</span> {
+    <span style="color:#409b1c">"background-color"</span>  :   <span style="color:#409b1c">"#00F"</span>,
+    <span style="color:#409b1c">"border"</span>            :   <span style="color:#409b1c">"5px dashed #F00"</span>,
+    <span style="color:#409b1c">"color"</span>             :   <span style="color:#409b1c">"#0F0"</span>,
+    <span style="color:#409b1c">"font-family"</span>       :   <span style="color:#409b1c">"Helvitica"</span>,
+    <span style="color:#409b1c">"font-size"</span>         :   <span style="color:#409b1c">"30px"</span>,
+    <span style="color:#409b1c">"toast-pos"</span>         :   <span style="color:#409b1c">"top"</span>
+};
+set_default(default_vals);
+toast(<span style="color:#409b1c">"This is the new default Toast."</span>);
+</pre>
+							</div>
 							<button id="set-default-toast" class="btn btn-primary">Test it!</button>
 						</div>
 					</div>
@@ -42,9 +110,13 @@
 			</div>
 			<!--	SCRIPTS 	-->
 			<!--		Libraries	 	-->
+			<script src="https://code.jquery.com/jquery-1.11.1.min.js"></script>
+			<script src="https://code.jquery.com/ui/1.11.1/jquery-ui.min.js"></script>
+			<!--
 			<script src="public/scripts/lib/jquery.js"></script>
 			<script src="public/scripts/lib/jquery-ui.js"></script>
-
+			-->
+		
 			<!--		Toast-js 		-->
 			<script src="src/toast.min.js"></script>
 

@@ -16,9 +16,7 @@ function main(){
                             },
         "toast-top"     :   {
                                 "toast_str" :   "This is a toast on the top of the window.",
-                                "opt_args"  :   {
-                                                    "toast-pos":    "top"
-                                                }
+                                "opt_args"  :   {"toast-pos":    "top"}
                             },
         "styled-toast"  :   {
                                 "toast_str" :   "This is a styled Toast.",

@@ -2,6 +2,6 @@
 
 [Android Toasts](http://developer.android.com/guide/topics/ui/notifiers/toasts.html) are small pop-ups that have many use-cases in android - error messages, status messages et al.
 
-So here's some toast in JQuery flavored Javascript!
+So here's some toast in jQuery flavored Javascript!
 
-Rest of the Readme, after all the work is done.
+For details, check out the [GitHub Page for Toast-js!](http://gnithin.github.io/toast-js/).

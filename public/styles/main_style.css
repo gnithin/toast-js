@@ -1,3 +1,16 @@
-#all-content{
-	text-align: center;
+#toast-style{
+	color:#FFF;
+	background-color: rgba(0,0,0,0.8);
+	padding:10px;
+}
+
+.code-block{
+	text-align: left;
+}
+
+#all-content-wrapper{
+	margin-bottom: 3%;
+}
+#toast-style a:active, #toast-style a:visited, #toast-style a:hover,#toast-style a{
+	color:#FFF;
 }
