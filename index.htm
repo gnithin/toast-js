@@ -55,6 +55,16 @@
 							<button id="default-toast" class="btn btn-primary">Test it!</button>
 						</div>
 						<div class="row">
+							<h2>Cheezy Toast</h2>
+							<p>
+								This is Toast that won't fade away, until the user clicks on the toast. You need to pass the the attribute <code>toast-type</code>, which can take values - <code>cheezy</code> for cheezy Toast and <code>default</code> for the default Toast.
+							</p>
+							<div class="code-block">
+							<pre style="background:#fff;color:#000"><span style="color:#3b5bb5">toast</span>(<span style="color:#409b1c">"This is a cheezy Toast. Click on the cross to close it!."</span>, {<span style="color:#409b1c">"toast-type"</span> : <span style="color:#409b1c">"cheezy"</span>});</pre>
+							</div>
+							<button id="cheezy-toast" class="btn btn-primary">Test it!</button>
+						</div>
+						<div class="row">
 							<h2>Timed Toast(for 5000ms)</h2>
 							<p>This is the same default Toast, but with an added delay of 5000ms. An optional dictionary can be passed to the <code>toast()</code> which has a key-value pair -  <code>"delay": 5000</code>. The <code>delay</code> attribute defaults to 3000 and is always in milliseconds.</p>
 							<div class="code-block">
@@ -115,15 +125,19 @@ toast(<span style="color:#409b1c">"This is the new default Toast."</span>);
 			</div>
 			<!--	SCRIPTS 	-->
 			<!--		Libraries	 	-->
+			<!-- TODO: Remove local libraries -->
+			<!--
 			<script src="https://code.jquery.com/jquery-1.11.1.min.js"></script>
 			<script src="https://code.jquery.com/ui/1.11.1/jquery-ui.min.js"></script>
-			<!--
+			-->
+			<!-- <!-- -->
 			<script src="public/scripts/lib/jquery.js"></script>
 			<script src="public/scripts/lib/jquery-ui.js"></script>
-			-->
+			<!-- -->
 		
 			<!--		Toast-js 		-->
-			<script src="src/toast.min.js"></script>
+			<!-- <script src="src/toast.min.js"></script> -->
+			<script src="src/toast.js"></script>
 
 			<!--	  User Defined		-->
 			<script src="public/scripts/js_modules.js"></script>

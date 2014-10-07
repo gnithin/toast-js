@@ -1,9 +1,10 @@
 /***********************************
 TODO:
 ====
--   Make Cheezy Toast.
+-   Effects on hover over cheezy Toasts
+-   Re-arrange the examples.
+-   Make standardized id/class names.(Use hyphen(-) instead of underscore(_))
 -   Prepare proper code block examples.
--   Style the home page.
 -   Clean up global variables, wherever possible.
 -   Testing on various platforms.
 -   DONE    Error logging on console.
@@ -11,6 +12,8 @@ TODO:
 -   DONE    Manage multiple toast execution.
 -   DONE    Resolve overlapping style problems. (Click Timed Toast, Styled toast and Timed Toast again.)
 -   DONE    Clear all the TODOs.
+-   DONE    Style the home page.
+-   DONE    Make Cheezy Toast.
 
 IDEAS:
 =====
@@ -32,6 +35,9 @@ var queue = [];
 **/
 var default_delay = 3000;
 
+var default_toast_type = "default";
+var acceptable_toast_type_values = new Array("cheezy", "default");
+
 /**
     Default id handles.
 **/
@@ -39,6 +45,7 @@ var default_id = "kamehameha_toast";
 var default_id_handle = "#" + default_id;
 var default_wrapper_id = "kamehameha_wrapper";
 var default_wrapper_id_handle = "#" + default_wrapper_id;
+var default_cross_mark_code = "<div id=\"kamehameha_cross\">&#10060;</div>";
 
 /**
     This dict is used to set the default style of the dictionary.
@@ -66,6 +73,17 @@ var default_wrapper_style_dict =
     "text-align" : "center"
 };
 
+var default_cheezy_mouseenter_style_dict =
+{
+    "border"  :   "2px dashed rgb(0, 0, 0)",
+    "border"  :   "2px dashed rgba(0, 0, 0, 0.4)",
+};
+
+var default_cheezy_mouseexit_style_dict =
+{
+    "border-width"  :   "0px"
+};
+
 /**
     ()  ->  None
     Initialising the elements that should be in the Toast.
@@ -74,6 +92,7 @@ var default_wrapper_style_dict =
 function initialise_toast(){
     element = "<div id=\"" + default_wrapper_id + "\"><div id=\"" + default_id + "\"></div></div>";
     $("body").append(element);
+    $("<style type='text/css'> .mouseenter-style{} </style>").appendTo("head");
 }
 
 /**
@@ -93,6 +112,7 @@ function toast(toast_str, opt_args){
     var wrapper_id_handle = default_wrapper_id_handle;
 
     var delay = default_delay;
+    var toast_type = default_toast_type;
 
     //Shallow copy is required.
     var style_dict = JSON.parse(JSON.stringify(default_toast_style_dict));
@@ -100,9 +120,11 @@ function toast(toast_str, opt_args){
 
 
     if(typeof opt_args  !== "undefined"){
-        populate_style_values(opt_args, delay, wrapper_style_dict, style_dict);
+        var_dict = populate_style_values(opt_args, wrapper_style_dict, style_dict);
+        delay = var_dict['delay'];
+        toast_type = var_dict['toast_type'];
+        log(toast_type);
     }
-
     queue_params = {
         "id_handle" :   id_handle,
         "wrapper_id_handle" : wrapper_id_handle,
@@ -110,6 +132,7 @@ function toast(toast_str, opt_args){
         "style_dict":   style_dict,
         "wrapper_style_dict" : wrapper_style_dict,
         "delay"     :   delay,
+        "toast_type":   toast_type,
         "speed"     :   "slow"
     };
 
@@ -158,10 +181,46 @@ function queue_processing(first_time){
         }
     }
     display_dict = queue[queue.length - 1];
-    log("printing -- " + JSON.stringify(display_dict));
+    //log("printing -- " + JSON.stringify(display_dict));
 
     $(display_dict["wrapper_id_handle"]).removeAttr("style").css(display_dict['wrapper_style_dict']);
-    $(display_dict["id_handle"]).removeAttr("style").text(display_dict["toast_str"]).css(display_dict["style_dict"]).fadeIn(display_dict["speed"]).delay(display_dict["delay"]).fadeOut(display_dict["speed"], function(){queue_processing(first_time);});
+
+    if(display_dict['toast_type'] == "cheezy"){
+        display_dict['style_dict']['cursor'] = "pointer";
+        $(display_dict["id_handle"]).
+            removeAttr("style").
+            text(display_dict["toast_str"]).
+            css(display_dict["style_dict"]).
+            fadeIn(display_dict["speed"]).
+            bind(
+                {
+                    mouseenter:function(){
+                        $(this).css(default_cheezy_mouseenter_style_dict);
+                    },
+                    mouseleave:function(){
+                        $(this).css(default_cheezy_mouseexit_style_dict);
+                    },
+                    click:function(){
+                        $(this).fadeOut(display_dict["speed"], function(){queue_processing(first_time);});
+                    }
+                }
+            )
+        ;
+    }else if(display_dict['toast_type'] == "default"){
+        $(display_dict["id_handle"]).
+            removeAttr("style").
+            text(display_dict["toast_str"]).
+            css(display_dict["style_dict"]).
+            fadeIn(display_dict["speed"]).
+            delay(display_dict["delay"]).
+            fadeOut(display_dict["speed"], function(){
+                    queue_processing(first_time);
+                }
+            )
+        ;
+    }else{
+        log_e("Invalid Toast-type Values");
+    }
 }
 
 /**
@@ -172,36 +231,47 @@ function set_default(args){
     if(typeof args === "undefined"){
         return;
     }
-    populate_style_values(args, default_delay, default_wrapper_style_dict, default_toast_style_dict);
+    var_dict = populate_style_values(args, default_wrapper_style_dict, default_toast_style_dict);
+    default_delay = var_dict['delay'];
+    default_toast_type = var_dict['toast_type'];
 }
 
-function populate_style_values(args, delay_var, wrapper_style_dict, toast_style_dict){
+function populate_style_values(args,wrapper_style_dict, toast_style_dict){
+    var delay_var = default_delay;
+    var toast_type_var = default_toast_type;
     for(key in args){
         switch(key){
             case "delay"    :   
                                 if(isNaN(args[key]) === false){
-                                    delay_var = args[key];
+                                    delay_var = args[key];    
                                 }
                                 break;
             case "toast-pos" :
+                                delete wrapper_style_dict['top'];
+                                delete wrapper_style_dict['bottom'];
                                 switch(args[key]){
-                                    case "top"   :   
-                                                delete wrapper_style_dict['top'];
-                                                delete wrapper_style_dict['bottom'];
+                                    case "top"   :
                                                 wrapper_style_dict['top'] = "2%";
                                                 break;
                                     case "bottom":
-                                                delete wrapper_style_dict['top'];
-                                                delete wrapper_style_dict['bottom'];
                                                 wrapper_style_dict['bottom'] = "2%";
                                                 break;
                                 };
+                                break;
+            case "toast-type"  :
+                                if(acceptable_toast_type_values.indexOf(args[key]) > -1){
+                                    toast_type_var = args[key];
+                                }
                                 break;
             default         :
                                 toast_style_dict[key] = args[key];
                                 break;
         };
     }
+    return  {
+                "delay"         :  delay_var,
+                "toast_type"    :  toast_type_var
+            };
 }
 
 

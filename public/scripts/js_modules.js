@@ -27,6 +27,12 @@ function main(){
                                                     "font-family"       :   "monospace",
                                                     "font-size"         :   "30px"
                                                 }
+                            },
+        "cheezy-toast"  :   {
+                                "toast_str" :   "This is a cheezy Toast. Click on the cross to close it!.",
+                                "opt_args"  :   {
+                                                    "toast-type"    :   "cheezy"
+                                                }
                             }
 
     };
